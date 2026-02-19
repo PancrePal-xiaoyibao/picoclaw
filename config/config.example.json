@@ -135,6 +135,23 @@
     },
     "cron": {
       "exec_timeout_minutes": 5
+    },
+    "knows": {
+      "enabled": false,
+      "api_key": "YOUR_KNOWS_API_KEY",
+      "api_base_url": "https://dev-api.nullht.com",
+      "default_data_scope": [
+        "PAPER",
+        "PAPER_CN",
+        "GUIDE",
+        "MEETING"
+      ],
+      "request_timeout_seconds": 120,
+      "max_retries": 3,
+      "retry_backoff_milliseconds": 500,
+      "batch_concurrency": 5,
+      "cache_ttl_minutes": 60,
+      "cache_max_entries": 500
     }
   },
   "heartbeat": {

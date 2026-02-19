@@ -303,6 +303,20 @@ func TestDefaultConfig_WebTools(t *testing.T) {
 	}
 }
 
+func TestDefaultConfig_KnowsTools(t *testing.T) {
+	cfg := DefaultConfig()
+
+	if cfg.Tools.Knows.Enabled {
+		t.Error("KnowS should be disabled by default")
+	}
+	if cfg.Tools.Knows.RequestTimeoutSeconds != 120 {
+		t.Errorf("Expected KnowS request timeout 120, got %d", cfg.Tools.Knows.RequestTimeoutSeconds)
+	}
+	if len(cfg.Tools.Knows.DefaultDataScope) == 0 {
+		t.Error("KnowS default_data_scope should not be empty")
+	}
+}
+
 func TestSaveConfig_FilePermissions(t *testing.T) {
 	if runtime.GOOS == "windows" {
 		t.Skip("file permission bits are not enforced on Windows")

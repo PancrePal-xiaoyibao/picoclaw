@@ -9,8 +9,8 @@ PicoClaw's tools configuration is located in the `tools` field of `config.json`.
   "tools": {
     "web": { ... },
     "exec": { ... },
-    "approval": { ... },
-    "cron": { ... }
+    "cron": { ... },
+    "knows": { ... }
   }
 }
 ```
@@ -110,6 +110,41 @@ The cron tool is used for scheduling periodic tasks.
 |--------|------|---------|-------------|
 | `exec_timeout_minutes` | int | 5 | Execution timeout in minutes, 0 means no limit |
 
+## KnowS Toolset
+
+The KnowS toolset provides oncology evidence retrieval and Q&A capabilities via the KnowS API.
+
+### Configuration
+
+| Config | Type | Default | Description |
+|--------|------|---------|-------------|
+| `enabled` | bool | false | Enable KnowS tools registration |
+| `api_key` | string | - | KnowS API key (`x-api-key`) |
+| `api_base_url` | string | - | KnowS API base URL, e.g. `https://dev-api.nullht.com` |
+| `default_data_scope` | string[] | `["PAPER","PAPER_CN","GUIDE","MEETING"]` | Default scope for `knows_ai_search` |
+| `request_timeout_seconds` | int | 120 | HTTP request timeout |
+| `max_retries` | int | 3 | Retry count for retryable failures |
+| `retry_backoff_milliseconds` | int | 500 | Exponential retry base backoff |
+| `batch_concurrency` | int | 5 | Max concurrency for batch KnowS tools |
+| `cache_ttl_minutes` | int | 60 | TTL for evidence detail cache |
+| `cache_max_entries` | int | 500 | Max in-memory cached evidence records |
+
+### Registered tools
+
+- `knows_ai_search`
+- `knows_answer`
+- `knows_batch_answer`
+- `knows_evidence_summary`
+- `knows_evidence_highlight`
+- `knows_get_paper_en`
+- `knows_get_paper_cn`
+- `knows_get_guide`
+- `knows_get_meeting`
+- `knows_auto_tagging`
+- `knows_list_question`
+- `knows_list_interpretation`
+- `knows_batch_get_evidence_details`
+
 ## Environment Variables
 
 All configuration options can be overridden via environment variables with the format `PICOCLAW_TOOLS_<SECTION>_<KEY>`:
@@ -118,5 +153,8 @@ For example:
 - `PICOCLAW_TOOLS_WEB_BRAVE_ENABLED=true`
 - `PICOCLAW_TOOLS_EXEC_ENABLE_DENY_PATTERNS=false`
 - `PICOCLAW_TOOLS_CRON_EXEC_TIMEOUT_MINUTES=10`
+- `PICOCLAW_TOOLS_KNOWS_ENABLED=true`
+- `PICOCLAW_TOOLS_KNOWS_API_KEY=your_key`
+- `PICOCLAW_TOOLS_KNOWS_API_BASE_URL=https://dev-api.nullht.com`
 
 Note: Array-type environment variables are not currently supported and must be set via the config file.

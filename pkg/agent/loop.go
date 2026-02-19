@@ -105,6 +105,32 @@ func registerSharedTools(cfg *config.Config, msgBus *bus.MessageBus, registry *A
 		agent.Tools.Register(tools.NewI2CTool())
 		agent.Tools.Register(tools.NewSPITool())
 
+		// KnowS tools
+		if cfg.Tools.Knows.Enabled {
+			knowsTools, err := tools.NewKnowsTools(tools.KnowsToolOptions{
+				APIKey:           cfg.Tools.Knows.APIKey,
+				APIBaseURL:       cfg.Tools.Knows.APIBaseURL,
+				DefaultDataScope: cfg.Tools.Knows.DefaultDataScope,
+				RequestTimeout:   time.Duration(cfg.Tools.Knows.RequestTimeoutSeconds) * time.Second,
+				MaxRetries:       cfg.Tools.Knows.MaxRetries,
+				RetryBackoff:     time.Duration(cfg.Tools.Knows.RetryBackoffMilliseconds) * time.Millisecond,
+				BatchConcurrency: cfg.Tools.Knows.BatchConcurrency,
+				CacheTTL:         time.Duration(cfg.Tools.Knows.CacheTTLMinutes) * time.Minute,
+				CacheMaxEntries:  cfg.Tools.Knows.CacheMaxEntries,
+			})
+			if err != nil {
+				logger.WarnCF("agent", "KnowS tools disabled due to invalid config",
+					map[string]interface{}{
+						"agent_id": agentID,
+						"error":    err.Error(),
+					})
+			} else {
+				for _, knowsTool := range knowsTools {
+					agent.Tools.Register(knowsTool)
+				}
+			}
+		}
+
 		// Message tool
 		messageTool := tools.NewMessageTool()
 		messageTool.SetSendCallback(func(channel, chatID, content string) error {

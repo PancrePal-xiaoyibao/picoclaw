@@ -316,10 +316,24 @@ type ExecConfig struct {
 	CustomDenyPatterns []string `json:"custom_deny_patterns" env:"PICOCLAW_TOOLS_EXEC_CUSTOM_DENY_PATTERNS"`
 }
 
+type KnowsToolsConfig struct {
+	Enabled                  bool     `json:"enabled" env:"PICOCLAW_TOOLS_KNOWS_ENABLED"`
+	APIKey                   string   `json:"api_key" env:"PICOCLAW_TOOLS_KNOWS_API_KEY"`
+	APIBaseURL               string   `json:"api_base_url" env:"PICOCLAW_TOOLS_KNOWS_API_BASE_URL"`
+	DefaultDataScope         []string `json:"default_data_scope"`
+	RequestTimeoutSeconds    int      `json:"request_timeout_seconds" env:"PICOCLAW_TOOLS_KNOWS_REQUEST_TIMEOUT_SECONDS"`
+	MaxRetries               int      `json:"max_retries" env:"PICOCLAW_TOOLS_KNOWS_MAX_RETRIES"`
+	RetryBackoffMilliseconds int      `json:"retry_backoff_milliseconds" env:"PICOCLAW_TOOLS_KNOWS_RETRY_BACKOFF_MILLISECONDS"`
+	BatchConcurrency         int      `json:"batch_concurrency" env:"PICOCLAW_TOOLS_KNOWS_BATCH_CONCURRENCY"`
+	CacheTTLMinutes          int      `json:"cache_ttl_minutes" env:"PICOCLAW_TOOLS_KNOWS_CACHE_TTL_MINUTES"`
+	CacheMaxEntries          int      `json:"cache_max_entries" env:"PICOCLAW_TOOLS_KNOWS_CACHE_MAX_ENTRIES"`
+}
+
 type ToolsConfig struct {
-	Web  WebToolsConfig  `json:"web"`
-	Cron CronToolsConfig `json:"cron"`
-	Exec ExecConfig      `json:"exec"`
+	Web   WebToolsConfig   `json:"web"`
+	Cron  CronToolsConfig  `json:"cron"`
+	Exec  ExecConfig       `json:"exec"`
+	Knows KnowsToolsConfig `json:"knows"`
 }
 
 func DefaultConfig() *Config {
@@ -440,6 +454,18 @@ func DefaultConfig() *Config {
 			},
 			Exec: ExecConfig{
 				EnableDenyPatterns: true,
+			},
+			Knows: KnowsToolsConfig{
+				Enabled:                  false,
+				APIKey:                   "",
+				APIBaseURL:               "",
+				DefaultDataScope:         []string{"PAPER", "PAPER_CN", "GUIDE", "MEETING"},
+				RequestTimeoutSeconds:    120,
+				MaxRetries:               3,
+				RetryBackoffMilliseconds: 500,
+				BatchConcurrency:         5,
+				CacheTTLMinutes:          60,
+				CacheMaxEntries:          500,
 			},
 		},
 		Heartbeat: HeartbeatConfig{
