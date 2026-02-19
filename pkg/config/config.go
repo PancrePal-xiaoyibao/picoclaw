@@ -261,6 +261,7 @@ type ProvidersConfig struct {
 	Ollama        ProviderConfig       `json:"ollama"`
 	Moonshot      ProviderConfig       `json:"moonshot"`
 	ShengSuanYun  ProviderConfig       `json:"shengsuanyun"`
+	SiliconFlow   ProviderConfig       `json:"siliconflow"`
 	DeepSeek      ProviderConfig       `json:"deepseek"`
 	GitHubCopilot ProviderConfig       `json:"github_copilot"`
 }
@@ -411,6 +412,7 @@ func DefaultConfig() *Config {
 			Nvidia:       ProviderConfig{},
 			Moonshot:     ProviderConfig{},
 			ShengSuanYun: ProviderConfig{},
+			SiliconFlow:  ProviderConfig{},
 		},
 		Gateway: GatewayConfig{
 			Host: "0.0.0.0",
@@ -523,6 +525,9 @@ func (c *Config) GetAPIKey() string {
 	if c.Providers.ShengSuanYun.APIKey != "" {
 		return c.Providers.ShengSuanYun.APIKey
 	}
+	if c.Providers.SiliconFlow.APIKey != "" {
+		return c.Providers.SiliconFlow.APIKey
+	}
 	return ""
 }
 
@@ -540,6 +545,12 @@ func (c *Config) GetAPIBase() string {
 	}
 	if c.Providers.VLLM.APIKey != "" && c.Providers.VLLM.APIBase != "" {
 		return c.Providers.VLLM.APIBase
+	}
+	if c.Providers.SiliconFlow.APIKey != "" {
+		if c.Providers.SiliconFlow.APIBase != "" {
+			return c.Providers.SiliconFlow.APIBase
+		}
+		return "https://api.siliconflow.cn/v1"
 	}
 	return ""
 }

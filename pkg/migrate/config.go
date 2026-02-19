@@ -12,13 +12,14 @@ import (
 )
 
 var supportedProviders = map[string]bool{
-	"anthropic":  true,
-	"openai":     true,
-	"openrouter": true,
-	"groq":       true,
-	"zhipu":      true,
-	"vllm":       true,
-	"gemini":     true,
+	"anthropic":   true,
+	"openai":      true,
+	"openrouter":  true,
+	"groq":        true,
+	"zhipu":       true,
+	"vllm":        true,
+	"gemini":      true,
+	"siliconflow": true,
 }
 
 var supportedChannels = map[string]bool{
@@ -122,6 +123,8 @@ func ConvertConfig(data map[string]interface{}) (*config.Config, []string, error
 				cfg.Providers.VLLM = pc
 			case "gemini":
 				cfg.Providers.Gemini = pc
+			case "siliconflow":
+				cfg.Providers.SiliconFlow = pc
 			}
 		}
 	}
@@ -255,6 +258,9 @@ func MergeConfig(existing, incoming *config.Config) *config.Config {
 	}
 	if existing.Providers.Gemini.APIKey == "" {
 		existing.Providers.Gemini = incoming.Providers.Gemini
+	}
+	if existing.Providers.SiliconFlow.APIKey == "" {
+		existing.Providers.SiliconFlow = incoming.Providers.SiliconFlow
 	}
 
 	if !existing.Channels.Telegram.Enabled && incoming.Channels.Telegram.Enabled {

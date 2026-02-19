@@ -156,6 +156,9 @@ func TestConvertConfig(t *testing.T) {
 				"groq": map[string]interface{}{
 					"api_key": "gsk-test",
 				},
+				"siliconflow": map[string]interface{}{
+					"api_key": "sk-sf-test",
+				},
 			},
 		}
 
@@ -174,6 +177,9 @@ func TestConvertConfig(t *testing.T) {
 		}
 		if cfg.Providers.Groq.APIKey != "gsk-test" {
 			t.Errorf("Groq.APIKey = %q, want %q", cfg.Providers.Groq.APIKey, "gsk-test")
+		}
+		if cfg.Providers.SiliconFlow.APIKey != "sk-sf-test" {
+			t.Errorf("SiliconFlow.APIKey = %q, want %q", cfg.Providers.SiliconFlow.APIKey, "sk-sf-test")
 		}
 	})
 
@@ -308,6 +314,7 @@ func TestSupportedProvidersCompatibility(t *testing.T) {
 		"zhipu",
 		"vllm",
 		"gemini",
+		"siliconflow",
 	}
 
 	for _, provider := range expected {

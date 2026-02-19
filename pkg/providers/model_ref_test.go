@@ -72,6 +72,7 @@ func TestNormalizeProvider(t *testing.T) {
 		{"claude", "anthropic"},
 		{"glm", "zhipu"},
 		{"google", "gemini"},
+		{"silicon-flow", "siliconflow"},
 		{"groq", "groq"},
 		{"", ""},
 	}

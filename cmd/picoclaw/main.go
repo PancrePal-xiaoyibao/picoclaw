@@ -734,6 +734,7 @@ func statusCmd() {
 		hasGemini := cfg.Providers.Gemini.APIKey != ""
 		hasZhipu := cfg.Providers.Zhipu.APIKey != ""
 		hasGroq := cfg.Providers.Groq.APIKey != ""
+		hasSiliconFlow := cfg.Providers.SiliconFlow.APIKey != ""
 		hasVLLM := cfg.Providers.VLLM.APIBase != ""
 
 		status := func(enabled bool) string {
@@ -748,6 +749,7 @@ func statusCmd() {
 		fmt.Println("Gemini API:", status(hasGemini))
 		fmt.Println("Zhipu API:", status(hasZhipu))
 		fmt.Println("Groq API:", status(hasGroq))
+		fmt.Println("SiliconFlow API:", status(hasSiliconFlow))
 		if hasVLLM {
 			fmt.Printf("vLLM/Local: ✓ %s\n", cfg.Providers.VLLM.APIBase)
 		} else {

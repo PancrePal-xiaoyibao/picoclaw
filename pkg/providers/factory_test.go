@@ -147,6 +147,26 @@ func TestResolveProviderSelection(t *testing.T) {
 			wantProxy:   "http://127.0.0.1:7890",
 		},
 		{
+			name: "explicit siliconflow provider uses defaults",
+			setup: func(cfg *config.Config) {
+				cfg.Agents.Defaults.Provider = "siliconflow"
+				cfg.Providers.SiliconFlow.APIKey = "siliconflow-key"
+				cfg.Providers.SiliconFlow.Proxy = "http://127.0.0.1:7890"
+			},
+			wantType:    providerTypeHTTPCompat,
+			wantAPIBase: "https://api.siliconflow.cn/v1",
+			wantProxy:   "http://127.0.0.1:7890",
+		},
+		{
+			name: "siliconflow model prefix uses siliconflow defaults",
+			setup: func(cfg *config.Config) {
+				cfg.Agents.Defaults.Model = "siliconflow/Pro/zai-org/GLM-4.7"
+				cfg.Providers.SiliconFlow.APIKey = "siliconflow-key"
+			},
+			wantType:    providerTypeHTTPCompat,
+			wantAPIBase: "https://api.siliconflow.cn/v1",
+		},
+		{
 			name: "missing keys returns model config error",
 			setup: func(cfg *config.Config) {
 				cfg.Agents.Defaults.Model = "custom-model"

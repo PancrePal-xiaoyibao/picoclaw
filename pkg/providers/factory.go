@@ -162,6 +162,15 @@ func resolveProviderSelection(cfg *config.Config) (providerSelection, error) {
 					sel.apiBase = "https://router.shengsuanyun.com/api/v1"
 				}
 			}
+		case "siliconflow", "silicon-flow":
+			if cfg.Providers.SiliconFlow.APIKey != "" {
+				sel.apiKey = cfg.Providers.SiliconFlow.APIKey
+				sel.apiBase = cfg.Providers.SiliconFlow.APIBase
+				sel.proxy = cfg.Providers.SiliconFlow.Proxy
+				if sel.apiBase == "" {
+					sel.apiBase = "https://api.siliconflow.cn/v1"
+				}
+			}
 		case "nvidia":
 			if cfg.Providers.Nvidia.APIKey != "" {
 				sel.apiKey = cfg.Providers.Nvidia.APIKey
@@ -273,6 +282,13 @@ func resolveProviderSelection(cfg *config.Config) (providerSelection, error) {
 			sel.proxy = cfg.Providers.Gemini.Proxy
 			if sel.apiBase == "" {
 				sel.apiBase = "https://generativelanguage.googleapis.com/v1beta"
+			}
+		case strings.HasPrefix(model, "siliconflow/") && cfg.Providers.SiliconFlow.APIKey != "":
+			sel.apiKey = cfg.Providers.SiliconFlow.APIKey
+			sel.apiBase = cfg.Providers.SiliconFlow.APIBase
+			sel.proxy = cfg.Providers.SiliconFlow.Proxy
+			if sel.apiBase == "" {
+				sel.apiBase = "https://api.siliconflow.cn/v1"
 			}
 		case (strings.Contains(lowerModel, "glm") || strings.Contains(lowerModel, "zhipu") || strings.Contains(lowerModel, "zai")) && cfg.Providers.Zhipu.APIKey != "":
 			sel.apiKey = cfg.Providers.Zhipu.APIKey

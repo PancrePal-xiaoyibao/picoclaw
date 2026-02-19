@@ -53,6 +53,8 @@ func NormalizeProvider(provider string) string {
 		return "zhipu"
 	case "google":
 		return "gemini"
+	case "silicon-flow", "silicon_flow":
+		return "siliconflow"
 	}
 
 	return p

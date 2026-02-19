@@ -274,4 +274,7 @@ func TestNormalizeModel_UsesAPIBase(t *testing.T) {
 	if got := normalizeModel("openrouter/auto", "https://openrouter.ai/api/v1"); got != "openrouter/auto" {
 		t.Fatalf("normalizeModel(openrouter) = %q, want %q", got, "openrouter/auto")
 	}
+	if got := normalizeModel("siliconflow/Pro/zai-org/GLM-4.7", "https://api.siliconflow.cn/v1"); got != "Pro/zai-org/GLM-4.7" {
+		t.Fatalf("normalizeModel(siliconflow) = %q, want %q", got, "Pro/zai-org/GLM-4.7")
+	}
 }

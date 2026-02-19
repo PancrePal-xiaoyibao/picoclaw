@@ -267,6 +267,9 @@ func TestDefaultConfig_Providers(t *testing.T) {
 	if cfg.Providers.OpenRouter.APIKey != "" {
 		t.Error("OpenRouter API key should be empty by default")
 	}
+	if cfg.Providers.SiliconFlow.APIKey != "" {
+		t.Error("SiliconFlow API key should be empty by default")
+	}
 }
 
 // TestDefaultConfig_Channels verifies channels are disabled by default
